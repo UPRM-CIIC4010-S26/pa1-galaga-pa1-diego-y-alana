@@ -47,6 +47,11 @@ void Program::Update() {
                     Animation(player->position.first, player->position.second, 16, 0, 33, 34, 30 ,30, 3, ImageManager::SpriteSheet)
                 );
 
+                score += 100;
+                p.second ->health = 0;
+                pauseFrames = 60;
+                lives--;
+
                 PlaySound(SoundManager::gameOver);
                 Projectile::projectiles.clear();
                 player->position.first = GetScreenWidth() / 2 - 15;
@@ -80,6 +85,10 @@ void Program::Draw() {
                    Rectangle{10.0f + i * 30, GetScreenHeight() - 30.0f, 20, 20}, 
                    Vector2{0, 0}, 0, WHITE);
     }
+
+    DrawText(TextFormat("Score: %05i", score), 20, 20, 30, GREEN);
+    if(pauseFrames<=0 && !gameOver)
+        player->draw();
 
 
     for (Projectile p : Projectile::projectiles) p.draw();
@@ -168,6 +177,11 @@ void Program::KeyInputs() {
 
     if (!startup && !paused && !gameOver && pauseFrames <= 0) player->keyInputs();
    
+    if(IsKeyPressed('K')){
+        score += 500;
+    }
+
+
 }
 
 void Program::PlayerReset() {
@@ -191,5 +205,6 @@ void Program::Reset() {
     count = 0;
     delay = 0;
     lives = 3;
+    score = 0;
     Program();
 }
