@@ -55,9 +55,6 @@ void Program::Update() {
                 );
 
                 score += 100;
-                p.second ->health = 0;
-                pauseFrames = 60;
-                lives--;
 
                 PlaySound(SoundManager::gameOver);
                 Projectile::projectiles.clear();
