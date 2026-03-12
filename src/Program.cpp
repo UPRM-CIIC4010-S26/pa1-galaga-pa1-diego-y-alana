@@ -35,6 +35,13 @@ void Program::Update() {
     }
     pauseFrames = std::max(pauseFrames - 1, 0);
 
+    if(score >= lifeIncreased){
+        if(lives < 5){
+            lives++;
+        }
+        lifeIncreased += 1000;
+    }
+
     if (!startup && !paused && !gameOver && pauseFrames <= 0) {
         Enemy::ManageEnemies(player->hitBox);
         StdEnemy::attackReset();
@@ -180,8 +187,6 @@ void Program::KeyInputs() {
     if(IsKeyPressed('K')){
         score += 500;
     }
-
-
 }
 
 void Program::PlayerReset() {
@@ -206,5 +211,6 @@ void Program::Reset() {
     delay = 0;
     lives = 3;
     score = 0;
+    lifeIncreased = 1000;
     Program();
 }

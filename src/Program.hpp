@@ -20,6 +20,7 @@ class Program {
         int lives = 3;
         int pauseFrames = 0;
         int score = 0;
+        int lifeIncreased = 1000;
 
         bool startup = true;
         bool paused = false;
