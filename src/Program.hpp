@@ -27,8 +27,7 @@ class Program {
         bool gameOver = false;
 
     public:
-        Program();
-        
+        Program();        
         void Update();
         void Draw();
         void ManageEnemyRespawns();

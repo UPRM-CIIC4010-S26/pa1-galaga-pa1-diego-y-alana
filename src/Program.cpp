@@ -43,10 +43,14 @@ void Program::Update() {
     }
 
     if (!startup && !paused && !gameOver && pauseFrames <= 0) {
-        Enemy::ManageEnemies(player->hitBox);
+        score += Enemy::ManageEnemies(player->hitBox);
         StdEnemy::attackReset();
         ManageEnemyRespawns();
         player->update();
+        while (score >= lifeIncreased && lives < 5) {
+            lives++;
+            lifeIncreased += 1000;
+        }
 
         for (std::pair<std::pair<float, float>, Enemy*> p : Enemy::enemies) {
             if (p.second && HitBox::Collision(player->hitBox, p.second->hitBox)) {
@@ -57,7 +61,6 @@ void Program::Update() {
                 PlaySound(SoundManager::gameOver);
                 Projectile::projectiles.clear();
                 player->position.first = GetScreenWidth() / 2 - 15;
-                score += p.second->scoreAmount;
                 p.second->health = 0;
                 pauseFrames = 120;
                 lives--;
@@ -105,7 +108,7 @@ void Program::ManageEnemyRespawns() {
 
     respawnCooldown -= 1;
     if (respawnCooldown <= 0) {
-        respawnCooldown = std::max(1080-(score/10), 240);
+        respawnCooldown = std::max(240,1080-score/10);
         for (std::pair<std::pair<float, float>, Enemy*>& p : Enemy::enemies) {
             if (!p.second && p.first.second != 150) {
                 int eType = GetRandomValue(1, 3);
@@ -178,7 +181,7 @@ void Program::KeyInputs() {
 
     if (!startup && !paused && !gameOver && pauseFrames <= 0) player->keyInputs();
    
-    if(IsKeyPressed('K')){
+    if (!startup && !paused && !gameOver && IsKeyPressed('K')) {
         score += 500;
     }
 }
