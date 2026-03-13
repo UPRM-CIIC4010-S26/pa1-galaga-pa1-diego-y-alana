@@ -57,7 +57,7 @@ void Program::Update() {
                 PlaySound(SoundManager::gameOver);
                 Projectile::projectiles.clear();
                 player->position.first = GetScreenWidth() / 2 - 15;
-                
+                score += p.second->scoreAmount;
                 p.second->health = 0;
                 pauseFrames = 120;
                 lives--;
